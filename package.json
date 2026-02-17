@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "lintFix": "eslint --fix"
+    "lintFix": "eslint --fix",
+    "test": "bun test",
+    "ci": "bun run lint && bun test"
   },
   "dependencies": {
     "next": "16.1.6",
@@ -15,6 +17,9 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@happy-dom/global-registrator": "^20.6.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
