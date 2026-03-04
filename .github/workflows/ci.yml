@@ -12,3 +12,21 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - run: bun run ci
+
+  blob-access-check:
+    runs-on: ubuntu-latest
+    needs: ci
+    environment: Production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - name: Verify Blob store access
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: |
+          bun -e "import { list } from '@vercel/blob';
+          const result = await list({ mode: 'folded', limit: 1000 });
+          console.log('folders:', result.folders ?? []);
+          console.log('blobCount:', result.blobs.length);
+          console.log('hasMore:', result.hasMore ?? false);"
